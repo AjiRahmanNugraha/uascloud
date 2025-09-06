@@ -23,7 +23,7 @@ const pool = mysql.createPool({
 
 // CORS - allow only frontend origin
 app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || "http://localhost:3000",
+  origin: process.env.FRONTEND_ORIGIN,
   credentials: true
 }));
 
@@ -36,10 +36,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.COOKIE_SECURE === "true", // set in .env (true in prod)
-    sameSite: process.env.COOKIE_SAMESITE || "none",
+    secure: process.env.COOKIE_SECURE === "true", // false untuk HTTP
+    sameSite: process.env.COOKIE_SAMESITE || "Lax",
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    maxAge: 1000 * 60 * 60 * 24 // 1 hari
   }
 }));
 

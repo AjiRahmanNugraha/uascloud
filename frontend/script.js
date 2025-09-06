@@ -1,7 +1,7 @@
 // frontend/script.js
 // Ganti API_BASE sesuai domain backend (misalnya https://api.example.com)
 const API_BASE = (function () {
-  return window.API_BASE || "https://api.example.com";
+  return window.API_BASE || "http://3.25.92.194:5000";
 })();
 
 // =================== Helper ===================
@@ -116,11 +116,43 @@ async function sendMessage() {
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
 
-  const registerBtn = document.getElementById("register-btn");
-  if (registerBtn) registerBtn.addEventListener("click", registerUser);
+  // Toggle between login and register
+  const loginTab = document.getElementById("login-tab");
+  const registerTab = document.getElementById("register-tab");
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
 
-  const loginBtn = document.getElementById("login-btn");
-  if (loginBtn) loginBtn.addEventListener("click", loginUser);
+  if (loginTab && registerTab && loginForm && registerForm) {
+    loginTab.addEventListener("click", () => {
+      loginTab.classList.add("active");
+      registerTab.classList.remove("active");
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
+    });
+
+    registerTab.addEventListener("click", () => {
+      registerTab.classList.add("active");
+      loginTab.classList.remove("active");
+      registerForm.style.display = "block";
+      loginForm.style.display = "none";
+    });
+  }
+
+  // Handle login form submit
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      loginUser();
+    });
+  }
+
+  // Handle register form submit
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      registerUser();
+    });
+  }
 
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) logoutBtn.addEventListener("click", logoutUser);
@@ -131,7 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const userInput = document.getElementById("user-input");
   if (userInput) {
     userInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") sendMessage();
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
     });
   }
 });

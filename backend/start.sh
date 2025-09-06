@@ -1,12 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
-# start python model server in background
-echo "Starting python model server..."
+echo "Starting Python model server..."
 python3 model_server.py &
 
-# wait a few seconds to allow model server to bind (optional)
-sleep 2
+# Tunggu Python server siap (opsional, 5 detik)
+sleep 5
 
-echo "Starting node backend..."
+echo "Starting Node.js backend..."
 node app.js
